@@ -5,6 +5,10 @@ public class Player {
     private String name;
     private int movesLeft;
 
+    private static ArrayList<String> roomCards = {};
+    private static ArrayList<String> suspectCards = {};
+    private String[] hand = new String[2];
+
     public Player(int row, int col, String name) {
         this.name = name;
         this.row = row;
