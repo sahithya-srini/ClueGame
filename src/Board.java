@@ -5,7 +5,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-//test
+
 public class Board {
 
     public void start(Stage primaryStage) {
