@@ -13,6 +13,9 @@ public class Board {
         GridPane grid = new GridPane();
         grid.setAlignment(Pos.CENTER);
 
+        // hiiii
+        
+
         // Set the size of each cell in the grid
         int cellSize = 30;
 
