@@ -15,32 +15,44 @@ public class ArrowKeys {
 
         scene.setOnKeyPressed(e -> {
             System.out.println("Key pressed: " + e.getCode()); // Log key code for debugging
+            boolean moved = false;
+
             if (player.getMovesLeft() > 0) {
-                switch (e.getCode()) {
-                    case UP:
-                        if (player.getRow() > 0) player.moveUp();
-                        break;
-                    case DOWN:
-                        if (player.getRow() < board.length - 1) player.moveDown();
-                        break;
-                    case LEFT:
-                        if (player.getCol() > 0) player.moveLeft();
-                        break;
-                    case RIGHT:
-                        if (player.getCol() < board[0].length - 1) player.moveRight();
-                        break;
-                    default:
-                        // Only print invalid move if a non-arrow key is pressed
-                        if (!isArrowKey(e.getCode())) {
-                            System.out.println("Invalid move");
-                        }
-                        return;
+                if (e.getCode() == javafx.scene.input.KeyCode.UP) {
+                    if (player.getRow() > 0) {
+                        player.moveUp();
+                        moved = true;
+                    }
+                } else if (e.getCode() == javafx.scene.input.KeyCode.DOWN) {
+                    if (player.getRow() < board.length - 1) {
+                        player.moveDown();
+                        moved = true;
+                    }
+                } else if (e.getCode() == javafx.scene.input.KeyCode.LEFT) {
+                    if (player.getCol() > 0) {
+                        player.moveLeft();
+                        moved = true;
+                    }
+                } else if (e.getCode() == javafx.scene.input.KeyCode.RIGHT) {
+                    if (player.getCol() < board[0].length - 1) {
+                        player.moveRight();
+                        moved = true;
+                    }
+                } else {
+                    if (!isArrowKey(e.getCode())) {
+                        System.out.println("Invalid move");
+                    }
+                    return;
                 }
-                player.decrementMoves();
-                System.out.println(player.getName() + " moved to: (" + player.getRow() + ", " + player.getCol() + ")");
-                System.out.println("Moves left: " + player.getMovesLeft());
-                if (player.getMovesLeft() == 0) {
-                    System.out.println(player.getName() + "'s turn is over!");
+
+                // Only update state if the player actually moved
+                if (moved) {
+                    player.decrementMoves();
+                    System.out.println(player.getName() + " moved to: (" + player.getRow() + ", " + player.getCol() + ")");
+                    System.out.println("Moves left: " + player.getMovesLeft());
+                    if (player.getMovesLeft() == 0) {
+                        System.out.println(player.getName() + "'s turn is over!");
+                    }
                 }
             }
         });
