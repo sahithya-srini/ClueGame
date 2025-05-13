@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class Player {
 
     private int row;
@@ -5,8 +7,8 @@ public class Player {
     private String name;
     private int movesLeft;
 
-    private static ArrayList<String> roomCards = {};
-    private static ArrayList<String> suspectCards = {};
+    private static ArrayList<String> roomCards = new ArrayList<>();
+    private static ArrayList<String> suspectCards = new ArrayList<>();
     private String[] hand = new String[2];
 
     public Player(int row, int col, String name) {
