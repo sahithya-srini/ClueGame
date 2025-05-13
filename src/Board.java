@@ -19,7 +19,8 @@ public class Board {
         // Set the size of each cell in the grid
         int cellSize = 30;
 
-        // test comment
+        // test
+        
 
         // Create a 12x12 grid of rectangles (or squares)
         for (int i = 0; i < 13; i++) {
