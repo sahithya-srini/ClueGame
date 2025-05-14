@@ -1,68 +1,68 @@
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.input.KeyCode;
+import javafx.scene.layout.GridPane;
+import javafx.scene.shape.Circle;
 
 public class ArrowKeys {
 
     private Player player;
     private int[][] board;
+    private Label infoLabel;
+    private GridPane grid;
+    private Circle playerToken;
 
-    public ArrowKeys(Player player, int[][] board) {
+    public ArrowKeys(Player player, int[][] board, Label infoLabel, GridPane grid, Circle playerToken) {
         this.player = player;
         this.board = board;
+        this.infoLabel = infoLabel;
+        this.grid = grid;
+        this.playerToken = playerToken;
     }
 
     public void enable(Scene scene) {
-        player.startTurn();  // Rolls dice and prints moves left
+        player.startTurn();
+        infoLabel.setText(player.getName() + " rolled: " + player.getMovesLeft());
 
         scene.setOnKeyPressed(e -> {
-            System.out.println("Key pressed: " + e.getCode()); // Log key code for debugging
+            System.out.println("Key pressed: " + e.getCode());
             boolean moved = false;
 
             if (player.getMovesLeft() > 0) {
-                if (e.getCode() == javafx.scene.input.KeyCode.UP) {
-                    if (player.getRow() > 0) {
-                        player.moveUp();
-                        moved = true;
-                    }
-                } else if (e.getCode() == javafx.scene.input.KeyCode.DOWN) {
-                    if (player.getRow() < board.length - 1) {
-                        player.moveDown();
-                        moved = true;
-                    }
-                } else if (e.getCode() == javafx.scene.input.KeyCode.LEFT) {
-                    if (player.getCol() > 0) {
-                        player.moveLeft();
-                        moved = true;
-                    }
-                } else if (e.getCode() == javafx.scene.input.KeyCode.RIGHT) {
-                    if (player.getCol() < board[0].length - 1) {
-                        player.moveRight();
-                        moved = true;
-                    }
-                } else {
-                    if (!isArrowKey(e.getCode())) {
-                        System.out.println("Invalid move");
-                    }
+                if (e.getCode() == KeyCode.UP && player.getRow() > 0) {
+                    player.moveUp();
+                    moved = true;
+                } else if (e.getCode() == KeyCode.DOWN && player.getRow() < board.length - 1) {
+                    player.moveDown();
+                    moved = true;
+                } else if (e.getCode() == KeyCode.LEFT && player.getCol() > 0) {
+                    player.moveLeft();
+                    moved = true;
+                } else if (e.getCode() == KeyCode.RIGHT && player.getCol() < board[0].length - 1) {
+                    player.moveRight();
+                    moved = true;
+                } else if (!isArrowKey(e.getCode())) {
+                    infoLabel.setText("Invalid move.");
                     return;
                 }
 
-                // Only update state if the player actually moved
                 if (moved) {
                     player.decrementMoves();
-                    System.out.println(player.getName() + " moved to: (" + player.getRow() + ", " + player.getCol() + ")");
-                    System.out.println("Moves left: " + player.getMovesLeft());
+                    GridPane.setColumnIndex(playerToken, player.getCol());
+                    GridPane.setRowIndex(playerToken, player.getRow());
+
+                    infoLabel.setText(player.getName() + " moved to (" + player.getRow() + ", " + player.getCol() +
+                            "). Moves left: " + player.getMovesLeft());
+
                     if (player.getMovesLeft() == 0) {
-                        System.out.println(player.getName() + "'s turn is over!");
+                        infoLabel.setText(player.getName() + "'s turn is over!");
                     }
                 }
             }
         });
     }
 
-    // Helper function to check if the key is an arrow key
-    private boolean isArrowKey(javafx.scene.input.KeyCode code) {
-        return code == javafx.scene.input.KeyCode.UP ||
-                code == javafx.scene.input.KeyCode.DOWN ||
-                code == javafx.scene.input.KeyCode.LEFT ||
-                code == javafx.scene.input.KeyCode.RIGHT;
+    private boolean isArrowKey(KeyCode code) {
+        return code == KeyCode.UP || code == KeyCode.DOWN || code == KeyCode.LEFT || code == KeyCode.RIGHT;
     }
 }
