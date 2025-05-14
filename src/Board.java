@@ -5,17 +5,19 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import javafx.scene.control.Label;
 
 public class Board extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        // Create the grid for the board
+
+        int[][] boardArr = new int[13][13];
         GridPane grid = new GridPane();
         grid.setAlignment(Pos.CENTER);
-
         int cellSize = 30;
 
         for (int i = 0; i < 13; i++) {
@@ -38,11 +40,17 @@ public class Board extends Application {
                 } else {
                     rect.setFill(Color.WHITE);
                 }
-
                 grid.add(rect, i, j);
             }
         }
 
+        Circle playerToken = new Circle(cellSize / 2.5, Color.BLACK);
+        Player user = new Player(2, 2, "user");
+        grid.add(playerToken, user.getCol(), user.getRow());
+        Label infoLabel = new Label();
+        ArrowKeys keys = new ArrowKeys(user, boardArr, infoLabel, grid, playerToken);
+        Scene scene = new Scene(grid, 450, 500);
+        keys.enable(scene);
         TextField inputField = new TextField();
         inputField.setPromptText("Type guess in here");
 
@@ -54,8 +62,6 @@ public class Board extends Application {
 
         VBox root = new VBox(10, grid, inputField);
         root.setAlignment(Pos.CENTER);
-
-        Scene scene = new Scene(root, 450, 500);
 
         primaryStage.setTitle("13x13 Board with Input");
         primaryStage.setScene(scene);
