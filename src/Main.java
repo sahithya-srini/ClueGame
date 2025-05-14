@@ -28,8 +28,8 @@ public class Main extends Application {
         String killer = suspectList.remove((int)(Math.random() * 4));
 
         System.out.println(("Killer : " + killer + "\nRoom Killed: " + roomKilled));
-
-
+        
+        // later add code to make a clue start screen thing
 
         int[][] boardArr = new int[12][12];
         Board board = new Board();
